@@ -1,26 +1,23 @@
 import express from "express";
 import dbConnect from "./config/dbConnect.js";
-import livros from "./livros.json" assert { type: "json" };
+import livro from "./models/Livro.js";
 
-const connection  = await dbConnect();
-connection.on("error", (error) => console.error("Erro ao conectar ao Banco de Dados", error));
+const connection = await dbConnect();
+connection.on("error", (error) =>
+  console.error("Erro ao conectar ao Banco de Dados", error)
+);
 connection.once("open", () => console.log("Conectado ao Banco de Dados"));
 
 const app = express();
 app.use(express.json());
 
-function BuscaLivro(id) {
-  return livros.findIndex((livro) => {
-    return livro.id === Number(id);
-  });
-}
-
 app.get("/", (req, res) => {
   res.status(200).send("Curso de Node.js");
 });
 
-app.get("/livros", (req, res) => {
-  res.status(200).json(livros);
+app.get("/livros", async (req, res) => {
+  const listaLivros = await livro.find({});
+  res.status(200).json(listaLivros);
 });
 
 app.get("/livros/:id", (req, res) => {

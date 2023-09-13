@@ -1,10 +1,8 @@
-import moongoose, { mongo } from "mongoose";
+import mongoose, { mongo } from "mongoose";
 
 async function dbConnect() {
-  moongoose.connect(
-    "mongodb+srv://levituschi:123@db.wcsnzel.mongodb.net/livraria?retryWrites=true&w=majority"
-  );
-  return moongoose.connection;
-}
+  mongoose.connect(process.env.DB_CONNECTION_STRING);
+  return mongoose.connection;
+};
 
 export default dbConnect;
