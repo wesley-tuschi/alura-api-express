@@ -1,5 +1,10 @@
 import express from "express";
+import dbConnect from "./config/dbConnect.js";
 import livros from "./livros.json" assert { type: "json" };
+
+const connection  = await dbConnect();
+connection.on("error", (error) => console.error("Erro ao conectar ao Banco de Dados", error));
+connection.once("open", () => console.log("Conectado ao Banco de Dados"));
 
 const app = express();
 app.use(express.json());
