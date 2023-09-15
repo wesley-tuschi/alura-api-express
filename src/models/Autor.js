@@ -1,7 +1,7 @@
-import moongoose from 'mongoose';
+import mongoose from 'mongoose';
 
-const autorSchema = new moongoose.Schema({
-    id: {type: mongoose.Schema.Types.ObjectId, required: true},
+const autorSchema = new mongoose.Schema({
+    id: {type: mongoose.Schema.Types.ObjectId},
     nome: {type: String, required: true},
     idade: {type: Number, required: true},
     nacionalidade: {type: String, required: true},
