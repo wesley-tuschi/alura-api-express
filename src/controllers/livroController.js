@@ -22,18 +22,22 @@ class LivroController {
       res.status(500).json({
         message: `${error.message} - falha na requesição do livro`,
       });
-    }   
+    }
   }
 
   static async cadastrarLivro(req, res) {
-    const novoLivro = (req.body);
+    const novoLivro = req.body;
     try {
       const autorEncontrado = await autor.findById(novoLivro.autor);
-      const livroCompleto = {...novoLivro, autor: {...autorEncontrado._doc }};
+      const livroCompleto = {
+        ...novoLivro,
+        autor: { ...autorEncontrado._doc },
+      };
       const livroCriado = await livro.create(livroCompleto);
 
       res.status(201).json({
-        message: "Cadastrado com sucesso!", livro: livroCriado,
+        message: "Cadastrado com sucesso!",
+        livro: livroCriado,
       });
     } catch (error) {
       res.status(500).json({
@@ -65,5 +69,17 @@ class LivroController {
         .json({ message: `${error.message} - falha ao excluir livro` });
     }
   }
+  static async listarLivroPorEditora(req, res) {
+    const editora = req.query.editora;
+    try {
+      const livrosPorEditora = await livro.find({ editora: editora });
+      res.status(200).json(livrosPorEditora);
+    } catch (error) {
+      res
+        .status(500)
+        .json({ message: `${error.message} - falha na requesição` });
+    }
+  }
 }
+
 export default LivroController;
